@@ -1,5 +1,6 @@
 from state import *
 import IDS as dfs
+import time
 
 class Uniform_Tree:
     #Explored states already.
@@ -19,7 +20,18 @@ class Uniform_Tree:
         self.generated = 1
 
     def find_solution(self):
+        print("--------------- Uniform Cost Tree Search -----------------")
+
+        t0 = time.time()
+        t1 = 0
+        timeout = False
+
         while True:
+            t1 = time.time()
+            if t1 - t0 > 3600:
+                timeout = True
+                break
+
             if len(self.fringe) == 0:
                 return False
   
@@ -40,6 +52,14 @@ class Uniform_Tree:
             
             self.fringe.sort(key=lambda x: x.cost)
             self.expanded += 1
+
+
+        print("Search time, ", t1-t0)
+        if timeout:
+            print("Algorithm timed out")
+            print("Nodes expanded: ", self.expanded)
+            print("Nodes generated: ", self.generated)
+            return False
 
         print("The total cost is: ", state.cost)
         print("Moves taken: ", state.move_sequence)

@@ -2,7 +2,7 @@ from state import *
 import IDS as dfs
 import uniform_graph as ug
 import uniform_tree as ut
-import time
+
 
 def main():
     
@@ -17,33 +17,14 @@ def main():
 
     root = State(5,4,v_pos,board)
 
-    print("--------------- Iterative Deepening Search -----------------")
     graph = dfs.Iterative_Deepening(root)
-
-    t0 = time.time()
     print(graph.find_solution(100))
-    t1 = time.time()
 
-    print("Uniform Cost Graph Search CPU time: ", (t1- t0))
-
-    print("--------------- Uniform Cost Graph Search -----------------")
     graph = ug.Uniform_Graph(root)
-
-    t0 = time.time()
     print(graph.find_solution())
-    t1 = time.time()
 
-    print("Uniform Cost Graph Search CPU time: ", (t1- t0))
-    
-    print("--------------- Uniform Cost Tree Search -----------------")
     graph = ut.Uniform_Tree(root)
-
-    t0 = time.time()
     print(graph.find_solution())
-    t1 = time.time()
-
-    print("Uniform Cost Tree Search CPU time: ", (t1- t0))
-
 
     print("Second board state....")
     #Generate a root state.
@@ -57,32 +38,15 @@ def main():
 
     root = State(5,4,v_pos,board)
 
-    print("--------------- Iterative Deepening Search -----------------")
-    graph = dfs.Iterative_Deepening(root)
-
-    t0 = time.time()
-    print(graph.find_solution(100))
-    t1 = time.time()
-
-    print("Uniform Cost Graph Search CPU time: ", (t1- t0))
-
-    print("--------------- Uniform Cost Graph Search -----------------")
-    graph = ug.Uniform_Graph(root)
-
-    t0 = time.time()
-    print(graph.find_solution())
-    t1 = time.time()
-
-    print("Uniform Cost Graph Search CPU time: ", (t1- t0))
     
-    print("--------------- Uniform Cost Tree Search -----------------")
-    graph = ut.Uniform_Tree(root)
+    graph = dfs.Iterative_Deepening(root)
+    print(graph.find_solution(100))
 
-    t0 = time.time()
+    graph = ug.Uniform_Graph(root)
     print(graph.find_solution())
-    t1 = time.time()
 
-    print("Uniform Cost Tree Search CPU time: ", (t1- t0))
+    graph = ut.Uniform_Tree(root)
+    print(graph.find_solution())
 
         
 

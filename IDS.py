@@ -1,5 +1,5 @@
 from state import *
-
+import time
 
 # Here's a function that checks if the entire board is clean
 # returns True if all squares are clean and False otherwise
@@ -22,11 +22,21 @@ class Iterative_Deepening:
   # now that we've created depth limited search, here's IDS. Really just calls DLS with a loop to increase the max depth each time
   def find_solution(self, maxDepth):
     
+    print("--------------- Iterative Deepening Search -----------------")
+    t0 = time.time()
+    t1 = 0
     to_search = [self.root_state]
     children = []
     found = None
 
+    timeout = False
+
     for i in range(maxDepth):
+      t1 = time.time()
+      if t1 - t0 > 3600:
+        timeout = True
+        break 
+
       for node in to_search:
         if boardCheck(node.board):
           found = node
@@ -41,6 +51,7 @@ class Iterative_Deepening:
       if found != None:
         break
 
+
       #Remove the None objects
       children = [obj for obj in children if obj]
       #Check that there are children left.
@@ -49,14 +60,19 @@ class Iterative_Deepening:
 
       to_search = children [:]
       children.clear()
-    
-    if found != None:
+
+    print("Search time, ", t1-t0)
+    if timeout:
+      print("Algorithm timed out")
+      print("Nodes expanded: ", self.expanded)
+      print("Nodes generated: ", self.generated)
+      return False
+    elif found != None:
       found.print_board()
       print("The total cost is: ", found.cost)
       print("Moves taken: ", found.move_sequence)
       print("Nodes expanded: ", self.expanded)
       print("Nodes generated: ", self.generated)
-      found.print_board()
       return True
 
     else:
