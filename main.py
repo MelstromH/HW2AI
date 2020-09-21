@@ -18,7 +18,7 @@ def main():
     root = State(5,4,v_pos,board)
 
     graph = dfs.Iterative_Deepening(root)
-    print(graph.find_solution(100))
+    print(graph.find_solution(10))
 
     graph = ug.Uniform_Graph(root)
     print(graph.find_solution())
@@ -40,7 +40,7 @@ def main():
 
     
     graph = dfs.Iterative_Deepening(root)
-    print(graph.find_solution(100))
+    print(graph.find_solution(20))
 
     graph = ug.Uniform_Graph(root)
     print(graph.find_solution())
