@@ -1,4 +1,6 @@
 from state import *
+import IDS as dfs
+import uniform_graph as ug
 
 def main():
     
@@ -14,14 +16,11 @@ def main():
 
     root.print_board()
 
-    #Generate a child state.
-    cost = root.generate_child_state(3)
+    #dfs.IDDFS(root,10)
+    graph = ug.Uniform_Graph(root)
+    print(graph.find_solution())
 
-    child = root.children[0]
 
-    child.print_board()
-    print(cost)
-    
 
 
 if __name__ == '__main__':

@@ -1,3 +1,4 @@
+from state import *
 # This file implements the Iterative Deepening Search Algorithm.
 # This code is based on the iterative deepening search algorith from geeksforgeeks.org
 # https://www.geeksforgeeks.org/iterative-deepening-searchids-iterative-deepening-depth-first-searchiddfs/
@@ -14,7 +15,7 @@ def DLS(current_state, max_depth):
   
   #recurse for all possible actions from current state
   for i in range(5):
-    DLS( (generate_child_state(self, i, graph_check = False) ), max_depth-1)
+    DLS((current_state.generate_child_state(i, graph_check = False) ), max_depth-1)
   
   return False
   

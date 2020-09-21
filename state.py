@@ -1,7 +1,10 @@
-
-
 #State class contains the board information and child states.
 class State:
+    #The cost of the current state.
+    cost = 0
+
+    #A refernece to a closed states list.
+    closed_states = None
 
     board = None #This is the board itself. In the class constructor it will
                  #be initialized to a 4x5 array of booleans (true: room is dirty,
@@ -42,11 +45,10 @@ class State:
     #(this is False by default but I am including it here so that I can use it for 
     #graph based uniform cost search.)
     #Returns the cost of doing that action.
-    def generate_child_state(self, action, graph_check = False):
+    def generate_child_state(self, action):
         
-        child_pos = self.vacuum_position
+        child_pos = self.vacuum_position.copy()
         child_board = self.board.copy()
-
 
         #The cost for different actions.
         cost = [0.2,0.8,0.7,0.9,1]
@@ -63,18 +65,14 @@ class State:
             child_pos[0] -= 1
         else:
             print("Action invalid or out of bounds")
-            return None
+            return
         
         #Create the child object
         child = State(self.x_size,self.y_size,child_pos,child_board)
-
-        #Need to implement the graph check thing here.
+        child.cost = self.cost + cost[action]
+        
 
         self.children.append(child)
-        
-        return cost[action]
-
-        
 
     def print_board(self):
         separator = '-' * (self.x_size * 6 + 1) #Doesnt adjust for differnt x sizes
@@ -92,6 +90,16 @@ class State:
             print('|')
             print(separator)
 
+    #Compares if two states are the same.
+    #returns true if so and false otherwise.
+    def compare_states(self, other):
+        if not( self.vacuum_position[0] == other.vacuum_position[0] and
+                self.vacuum_position[1] == other.vacuum_position[1]):
+                return False
 
-
-
+        for x in range(self.x_size):
+            for y in range(self.y_size):
+                if self.board[y][x] != other.board[y][x]:
+                    return False
+        
+        return True
