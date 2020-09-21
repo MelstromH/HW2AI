@@ -3,32 +3,7 @@ from state import *
 # This code is based on the iterative deepening search algorith from geeksforgeeks.org
 # https://www.geeksforgeeks.org/iterative-deepening-searchids-iterative-deepening-depth-first-searchiddfs/
 
-# first define a function for depth limited search.
-# takes a state and the max depth it can search.
-# if a solution is found, returns that state. If no solution is found, return False
-def DLS(current_state, max_depth):
-  #check to see if this state is the solution. i.e. no dirty squares remain
-  if boardCheck(current_state) == True: return current_state
-    
-  #check to see if the search has exceeded the max depth
-  if max_depth <= 0: return False
-  
-  #recurse for all possible actions from current state
-  for i in range(5):
-    DLS((current_state.generate_child_state(i, graph_check = False) ), max_depth-1)
-  
-  return False
-  
-# now that we've created depth limited search, here's IDS. Really just calls DLS with a loop to increase the max depth each time
-# Technically the maxDepth for the vacuum problem is infinity, so make sure to specify a reasonable value for input.
-def IDDFS(source, maxDepth):
-  for i in range(maxDepth):
-    solution = DLS(source, maxDepth)
-    if solution:
-      return solution
-  return False # no solution was found
- 
- 
+
 # Here's a function that checks if the entire board is clean
 # returns True if all squares are clean and False otherwise
 def boardCheck(boardState):
@@ -37,3 +12,55 @@ def boardCheck(boardState):
     if True in aRow:
       clean_board = False
   return clean_board
+
+class Iterative_Deepening:
+
+  expanded = 0
+  generated = 0
+
+  def __init__(self, root):
+    self.root_state = root
+
+    
+  # now that we've created depth limited search, here's IDS. Really just calls DLS with a loop to increase the max depth each time
+  def IDDFS(self, maxDepth):
+    
+    to_search = [self.root_state]
+    children = []
+    found = None
+
+    for i in range(maxDepth):
+      for node in to_search:
+        if boardCheck(node.board):
+          found = node
+          break
+        
+        for i in range(5): 
+          children.append(node.generate_child_state(i))
+          self.generated += 1
+        
+        self.expanded += 1
+      
+      #Remove the None objects
+      children = [obj for obj in children if obj]
+      #Check that there are children left.
+      if len(children) == 0:
+        break
+
+      to_search = children [:]
+      children.clear()
+    
+    if found != None:
+      found.print_board()
+      print("The total cost is: ", found.cost)
+      print("Moves taken: ", found.move_sequence)
+      print("Nodes expanded: ", self.expanded)
+      print("Nodes generated: ", self.generated)
+      found.print_board()
+      return True
+
+    else:
+      return False # no solution was found
+  
+ 
+

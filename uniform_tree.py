@@ -1,7 +1,7 @@
 from state import *
 import IDS as dfs
 
-class Uniform_Graph:
+class Uniform_Tree:
     #Explored states already.
     explored_states = []
 
@@ -19,9 +19,7 @@ class Uniform_Graph:
         self.generated = 1
 
     def find_solution(self):
-        
         while True:
-
             if len(self.fringe) == 0:
                 return False
   
@@ -36,22 +34,11 @@ class Uniform_Graph:
                 child_state = state.generate_child_state(i)
                 
                 if child_state != None:
-                    #Check that this state hasnt already been explored.
-                    explored = False
-                    #Has this state been explored?
-                    for other in self.explored_states:
-                        if child_state.compare_states(other):
-                            explored = True
-                            break
-
-                    if not explored:
-                        self.generated += 1
-                        self.fringe.append(child_state)                
+                    self.generated += 1
+                    self.fringe.append(child_state)                
 
             
-            self.explored_states.append(state)
             self.fringe.sort(key=lambda x: x.cost)
-
             self.expanded += 1
 
         print("The total cost is: ", state.cost)
@@ -62,4 +49,3 @@ class Uniform_Graph:
         state.print_board()
 
         return True
-        

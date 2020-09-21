@@ -3,20 +3,18 @@ class State:
     #The cost of the current state.
     cost = 0
 
-    #A refernece to a closed states list.
-    closed_states = None
-
     board = None #This is the board itself. In the class constructor it will
                  #be initialized to a 4x5 array of booleans (true: room is dirty,
                  #false: room is clean)
     
     vacuum_position = [0,0] #A pair containing the position of the vacuum cleaner.
 
-    #A list of the child states.
-    children = []
 
     x_size = 0
     y_size = 0
+
+    #moves
+    move_sequence = ''
 
     #Takes the x and y size of the board
     #and a 2D array which contains the current dirt distribution.
@@ -48,10 +46,11 @@ class State:
     def generate_child_state(self, action):
         
         child_pos = self.vacuum_position.copy()
-        child_board = self.board.copy()
+        child_board = [row [:] for row in self.board]
 
         #The cost for different actions.
         cost = [0.2,0.8,0.7,0.9,1]
+        moves = ['Suck ','Up ','Down ','Right ','Left ']
 
         if action == 0:
             child_board[child_pos[1]][child_pos[0]] = False
@@ -64,15 +63,14 @@ class State:
         elif action == 4 and self.vacuum_position[0] - 1 >= 0:
             child_pos[0] -= 1
         else:
-            print("Action invalid or out of bounds")
-            return
+            return None
         
         #Create the child object
         child = State(self.x_size,self.y_size,child_pos,child_board)
         child.cost = self.cost + cost[action]
-        
+        child.move_sequence = self.move_sequence + moves[action]
 
-        self.children.append(child)
+        return child
 
     def print_board(self):
         separator = '-' * (self.x_size * 6 + 1) #Doesnt adjust for differnt x sizes
