@@ -1,7 +1,4 @@
 from state import *
-# This file implements the Iterative Deepening Search Algorithm.
-# This code is based on the iterative deepening search algorith from geeksforgeeks.org
-# https://www.geeksforgeeks.org/iterative-deepening-searchids-iterative-deepening-depth-first-searchiddfs/
 
 
 # Here's a function that checks if the entire board is clean
@@ -23,7 +20,7 @@ class Iterative_Deepening:
 
     
   # now that we've created depth limited search, here's IDS. Really just calls DLS with a loop to increase the max depth each time
-  def IDDFS(self, maxDepth):
+  def find_solution(self, maxDepth):
     
     to_search = [self.root_state]
     children = []
@@ -41,6 +38,9 @@ class Iterative_Deepening:
         
         self.expanded += 1
       
+      if found != None:
+        break
+
       #Remove the None objects
       children = [obj for obj in children if obj]
       #Check that there are children left.
