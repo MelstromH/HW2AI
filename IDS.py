@@ -20,7 +20,7 @@ def DLS(current_state, max_depth):
   
 # now that we've created depth limited search, here's IDS. Really just calls DLS with a loop to increase the max depth each time
 # Technically the maxDepth for the vacuum problem is infinity, so make sure to specify a reasonable value for input.
-def IDDFS(self, source, target, maxDepth):
+def IDDFS(source, maxDepth):
   for i in range(maxDepth):
     solution = DLS(source, maxDepth)
     if solution:
