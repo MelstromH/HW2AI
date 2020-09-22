@@ -64,7 +64,7 @@ class Uniform_Graph:
             self.expanded += 1
 
 
-        print("Search time, ", t1-t0)
+        print("Search time: ", t1-t0)
         if timeout:
             print("Algorithm timed out")
             print("Nodes expanded: ", self.expanded)
